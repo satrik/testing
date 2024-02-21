@@ -1,7 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
-cask testing < Formula
+class testing < Formula
     version "0.1"
     sha256 "f6c6c5627d2a1118088184e29eb1df9fa40afac0b5dab060196182fd002cad7d"
   
