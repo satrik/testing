@@ -14,8 +14,6 @@ jobs:
 
       - name: Bump version and update hash
         run: |
-          ls -la ${{ github.workspace }}
-          ls -la ${{ github.workspace }}/Casks/
           cd ${{ github.workspace }}/Casks
           sed -i 's/^  version .*/  version "0.2"/' testing.rb
           sed -i 's/^  sha256 .*/  sha256 "123486279a93d519acc8dabbdd2c9aadb6682bbd7533a4edb5ef6ca4cdaa9125"/' testing.rb
