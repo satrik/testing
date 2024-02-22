@@ -2,7 +2,12 @@ class Testing < Formula
   desc "testing desc"
   homepage "https://github.com/satrik/testing"
 
-  depends_on: macos
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+  
+  depends_on macos: ">= :big_sur"
 
   url "https://github.com/satrik/testing/releases/download/0.1/testing.zip"
 
