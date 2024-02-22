@@ -39,7 +39,7 @@ jobs:
           ls -la App.xcarchive/Products/Applications
           hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/toggleMute.app" -ov -format UDZO "../toggleMute.dmg"
           ls -la ..
-          echo "dmg_checksum=$(sha256sum --binary "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
+          echo "dmg_checksum=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "toggleMute.dmg"
