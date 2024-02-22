@@ -14,6 +14,7 @@ jobs:
         token: ${{secrets.CASK_REPO_TOKEN}}
         # Cask name, required
         cask: satrik/homebrew-testing/testing
+        tap: satrik/testing
         # Optional, if don't want to check for already open PRs
         force: false
         livecheck: false
