@@ -1,26 +1,8 @@
-class Testing < Formula
-  desc "testing desc"
-  homepage "https://github.com/satrik/testing"
-
-  livecheck do
-    url :url
-    strategy :github_latest
-  end
-
-  depends_on :macos
-
-  url "https://github.com/satrik/testing/releases/download/0.1/testing.zip"
-
-  app "testing.app"
-
-end
-
-
 cask "testing" do
   version "0.1"
-  sha256 "8c0bac724442f9b15efe820c61d918d1162b8bde1cde96f8c5c90187af098c78"
+  sha256 "1ad7b7222c675bd7a4be7a976e0caef98c839d014ab539733091a813873c0917"
 
-  url "https://github.com/satrik/testing/releases/download/#{version}/testing.zip"
+  url "https://github.com/satrik/testing/releases/download/#{version}/testing.dmg"
   name "testing"
   desc "testing desc"
   homepage "https://github.com/satrik/testing"
