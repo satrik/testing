@@ -36,4 +36,4 @@ jobs:
           xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty
           if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
           xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive
-          ls -la
+          ls -la App.xcarchive/Products/Applications
