@@ -1,9 +1,12 @@
 name: Xcode - Build and Analyze
 
 on:
-  pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      component:
+        description: 'Version component to increment'
+        required: true
+        default: 'patch'
 
 jobs:
   build:
@@ -39,7 +42,14 @@ jobs:
           hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/toggleMute.app" -ov -format UDZO "../toggleMute.dmg"
           ls -la ..
           echo "dmg_checksum=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
-      - uses: ncipollo/release-action@v1
+      - uses: fwilhe2/bump-version@main
+        id: bump
+        with:
+          component: ${{ github.event.inputs.component }}
+      - run: echo "Bumped version is ${{ steps.bump.outputs.newVersion }}"
+      - uses: ncipollo/release-action@v1.14.0
         with:
           artifacts: "toggleMute.dmg"
           body: "SHA256sum: ${{ steps.Build.outputs.dmg_checksum}}"
+          name: ${{ steps.bump.outputs.newVersion }}
+          commit: $GITHUB_SHA
