@@ -10,7 +10,7 @@ class Testing < Formula
     strategy :github_latest
   end
 
-  depends_on macos: ">= :sonoma"
+  depends_on :macos
 
   url "https://github.com/satrik/testing/releases/download/0.1/testing.zip"
 
