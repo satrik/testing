@@ -17,13 +17,13 @@ jobs:
           ls -la ${{ github.workspace }}
           ls -la ${{ github.workspace }}/Casks/
           cd ${{ github.workspace }}/Casks
-          sed 's/version.*/version "0.2"/' testing.rb
-          sed 's/sha256.*/sha256 "123486279a93d519acc8dabbdd2c9aadb6682bbd7533a4edb5ef6ca4cdaa9125"/' testing.rb
+          sed -i 's/version.*/version "0.2"/' testing.rb
+          sed -i 's/sha256.*/sha256 "123486279a93d519acc8dabbdd2c9aadb6682bbd7533a4edb5ef6ca4cdaa9125"/' testing.rb
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.CASK_REPO_TOKEN }}
           commit-message: Update test
           delete-branch: true
           title: 'Update version test'
