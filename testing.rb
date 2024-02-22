@@ -6,8 +6,8 @@ class Testing < Formula
     url :url
     strategy :github_latest
   end
-  
-  depends_on macos: ">= :big_sur"
+
+  depends_on macos: ">= :sonoma"
 
   url "https://github.com/satrik/testing/releases/download/0.1/testing.zip"
 
