@@ -4,9 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-
-  bump-cask:
-    runs-on: macos-latest
+  createPullRequest:
+    runs-on: ubuntu-latest
     steps:
     - uses: macauley/action-homebrew-bump-cask@v1
       with:
@@ -17,3 +16,24 @@ jobs:
         # Optional, if don't want to check for already open PRs
         force: false
         livecheck: false
+      - uses: actions/checkout@v2
+        with:
+          repository: 'satrik/homebrew-testing'
+          token: ${{ secrets.CASK_REPO_TOKEN }}
+          path: '/tmp/repo'
+
+      - name: Bump version and update hash
+        run: |
+          cd /tmp/repo/homebrew-testing
+          sed 's/version.*/version "0.2"/' testing.rb
+          sed 's/sha256.*/sha256 "123486279a93d519acc8dabbdd2c9aadb6682bbd7533a4edb5ef6ca4cdaa9125"/' testing.rb
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.PAT }}
+          commit-message: Update test
+          delete-branch: true
+          title: 'Update version test'
+          labels: update
+          draft: false
