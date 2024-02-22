@@ -1,0 +1,16 @@
+name: ranz-action
+on:
+  workflow_dispatch:
+jobs:
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: macauley/action-homebrew-bump-cask@v1
+      with:
+        # required, custom GitHub access token with only the 'public_repo' scope enabled
+        token: ${{secrets.CASK_REPO_TOKEN}}
+        # Cask name, required
+        cask: satrik/testing/testing
+        # Optional, if don't want to check for already open PRs
+        force: false
+        livecheck: false
