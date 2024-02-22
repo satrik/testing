@@ -11,11 +11,14 @@ jobs:
         with:
           repository: 'satrik/homebrew-testing'
           token: ${{ secrets.CASK_REPO_TOKEN }}
-          path: '/tmp/repo'
 
       - name: Bump version and update hash
         run: |
-          cd /tmp/repo/homebrew-testing
+          echo $PWD
+          ls $PWD
+          echo ${{ github.workspace }}
+          ls ${{ github.workspace }}
+          cd ${{ github.workspace }}
           sed 's/version.*/version "0.2"/' testing.rb
           sed 's/sha256.*/sha256 "123486279a93d519acc8dabbdd2c9aadb6682bbd7533a4edb5ef6ca4cdaa9125"/' testing.rb
 
