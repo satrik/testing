@@ -10,6 +10,10 @@ cask "testing" do
 
   depends_on macos: ">= :mojave"
 
+  livecheck do
+    url :url
+  end
+
   app "testing.app"
 
 end
