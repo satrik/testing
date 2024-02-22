@@ -7,22 +7,15 @@ jobs:
   createPullRequest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
           repository: 'satrik/homebrew-testing'
           token: ${{ secrets.CASK_REPO_TOKEN }}
+          path: '/tmp/repo'
 
       - name: Bump version and update hash
         run: |
-          echo "workspace"
-          echo ${{ github.workspace }}
-          ls ${{ github.workspace }}
-
-          echo "WORKSPACE"
-          echo $GITHUB_WORKSPACE
-          ls $GITHUB_WORKSPACE
-
-          cd ${{ github.workspace }}
+          cd /tmp/repo/homebrew-testing
           sed 's/version.*/version "0.2"/' testing.rb
           sed 's/sha256.*/sha256 "123486279a93d519acc8dabbdd2c9aadb6682bbd7533a4edb5ef6ca4cdaa9125"/' testing.rb
 
