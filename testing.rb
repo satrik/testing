@@ -1,33 +1,18 @@
 cask "testing" do
-  version "0.1"
-  sha256 "088694a52b1cffecf51cb243df3048438a2e86db17a7043b54dd1fecb0f5cbd3"
-
-  url "https://iterm2.com/downloads/beta/iTerm2-#{version.dots_to_underscores}.zip"
-  name "iTerm2"
-  desc "Terminal emulator as alternative to Apple's Terminal app"
-  homepage "https://www.iterm2.com/"
-
-  livecheck do
-    url "https://iterm2.com/appcasts/testing_modern.xml"
-    strategy :sparkle, &:version
+    version "0.1"
+    sha256 "8c0bac724442f9b15efe820c61d918d1162b8bde1cde96f8c5c90187af098c78"
+  
+    url "https://github.com/satrik/testing/releases/download/#{version}/testing.zip"
+    name "testing"
+    desc "testing desc"
+    homepage "https://github.com/satrik/testing"
+    
+    livecheck do
+      url :url
+      strategy :github_latest
+    end
+  
+    depends_on macos: ">= :mojave"
+  
+    app "testing.app"
   end
-
-  auto_updates true
-  conflicts_with cask: [
-    "iterm2",
-    "iterm2-legacy",
-    "iterm2-nightly",
-  ]
-  depends_on macos: ">= :catalina"
-
-  app "iTerm.app"
-
-  zap trash: [
-    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.googlecode.iterm2.sfl*",
-    "~/Library/Application Support/iTerm",
-    "~/Library/Application Support/iTerm2",
-    "~/Library/Caches/com.googlecode.iterm2",
-    "~/Library/Preferences/com.googlecode.iterm2.plist",
-    "~/Library/Saved Application State/com.googlecode.iterm2.savedState",
-  ]
-end
