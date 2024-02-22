@@ -16,4 +16,4 @@ jobs:
         cask: satrik/homebrew-testing/testing
         # Optional, if don't want to check for already open PRs
         force: false
-        livecheck: true
+        livecheck: false
