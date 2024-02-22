@@ -9,6 +9,7 @@ jobs:
       with:
         # required, custom GitHub access token with only the 'public_repo' scope enabled
         token: ${{secrets.CASK_REPO_TOKEN}}
+        tap: satrik/testing
         # Cask name, required
         cask: satrik/testing/testing
         # Optional, if don't want to check for already open PRs
