@@ -14,7 +14,15 @@ jobs:
 
       - name: Bump version and update hash
         run: |
-          cd $GITHUB_WORKSPACE
+          echo "workspace"
+          echo ${{ github.workspace }}
+          ls ${{ github.workspace }}
+
+          echo "WORKSPACE"
+          echo $GITHUB_WORKSPACE
+          ls $GITHUB_WORKSPACE
+
+          cd ${{ github.workspace }}
           sed 's/version.*/version "0.2"/' testing.rb
           sed 's/sha256.*/sha256 "123486279a93d519acc8dabbdd2c9aadb6682bbd7533a4edb5ef6ca4cdaa9125"/' testing.rb
 
