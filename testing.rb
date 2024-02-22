@@ -1,3 +1,6 @@
+# typed: true
+# frozen_string_literal: true
+
 class Testing < Formula
   desc "testing desc"
   homepage "https://github.com/satrik/testing"
