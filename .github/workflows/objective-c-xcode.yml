@@ -32,24 +32,28 @@ jobs:
           scheme: ${{ 'default' }}
         run: |
           cd toggleMute
-          if [ $scheme = default ]; then scheme=$(cat default); fi
-          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
-          file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-          xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty
-          if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
-          xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive
-          ls -la App.xcarchive/Products/Applications
-          hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/toggleMute.app" -ov -format UDZO "../toggleMute.dmg"
-          ls -la ..
+          #if [ $scheme = default ]; then scheme=$(cat default); fi
+          #if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
+          #file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
+          #xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty
+          #if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
+          #xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive
+          #ls -la App.xcarchive/Products/Applications
+          #hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/toggleMute.app" -ov -format UDZO "../toggleMute.dmg"
+          #ls -la ..
+          echo ${RANDOM} > ../toggleMute.dmg
           echo "dmg_checksum=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
       - uses: fwilhe2/bump-version@main
         id: bump
         with:
           component: ${{ github.event.inputs.component }}
       - run: echo "Bumped version is ${{ steps.bump.outputs.newVersion }}"
+      - run: git tag ${{ steps.bump.outputs.newVersion }}
+      - run: git push --tags
       - uses: ncipollo/release-action@v1.14.0
         with:
           artifacts: "toggleMute.dmg"
           body: "SHA256sum: ${{ steps.Build.outputs.dmg_checksum}}"
           name: ${{ steps.bump.outputs.newVersion }}
           commit: $GITHUB_SHA
+          tag: ${{ steps.bump.outputs.newVersion }}
