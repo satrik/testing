@@ -12,13 +12,8 @@ jobs:
       with:
         # required, custom GitHub access token with only the 'public_repo' scope enabled
         token: ${{secrets.CASK_REPO_TOKEN}}
-        # bump all outdated casks in this tap
-        tap: satrik/homebrew-testing
         # Cask name, required
-        cask: testing
-        # Optional, will be determined automatically
-        tag: ${{github.ref}}
-        # Optional, will be determined automatically
-        revision: ${{github.sha}}
+        cask: satrik/homebrew-testing/testing
         # Optional, if don't want to check for already open PRs
         force: false
+        livecheck: true
