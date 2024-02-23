@@ -2,11 +2,6 @@ name: Xcode - Build and Analyze
 
 on:
   workflow_dispatch:
-    inputs:
-      component:
-        description: 'Version component to increment'
-        required: true
-        default: 'patch'
 
 jobs:
   build:
@@ -28,6 +23,7 @@ jobs:
           echo $default | cat >default
           echo Using default scheme: $default
       - name: Build
+        id: build
         env:
           scheme: ${{ 'default' }}
         run: |
@@ -43,22 +39,23 @@ jobs:
           #ls -la ..
           echo ${RANDOM} > ../toggleMute.dmg
           echo "dmg_checksum=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
-      - uses: fwilhe2/bump-version@main
-        id: bump
-        with:
-          component: ${{ github.event.inputs.component }}
-      - run: echo "Bumped version is ${{ steps.bump.outputs.newVersion }}"
-      - name: Bump version and push tag
+      - name: get current version
+        id: get-current-version
+        run: |
+          TAG="$(cat toggleMute/toggleMute.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' ')"
+          echo "CURRENT_VERSION=${TAG}" >> $GITHUB_OUTPUT
+          git tag "${TAG}" 
+          cat $GITHUB_OUTPUT
+      - name: Create tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.bump.outputs.newVersion }}
-      #- run: git tag ${{ steps.bump.outputs.newVersion }} || true
+        uses: cardinalby/git-tag-action@master
+        env:
+          TAG: ${{ steps.get-current-version.outputs.CURRENT_VERSION }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: ncipollo/release-action@v1.14.0
         with:
           artifacts: "toggleMute.dmg"
-          body: "SHA256sum: ${{ steps.Build.outputs.dmg_checksum}}"
-          name: ${{ steps.bump.outputs.newVersion }}
+          body: "SHA256sum: ${{ steps.build.outputs.dmg_checksum}}"
+          name: ${{ steps.get-current-version.outputs.CURRENT_VERSION }}
           commit: $GITHUB_SHA
-          tag: ${{ steps.bump.outputs.newVersion }}
+          tag: ${{ steps.get-current-version.outputs.CURRENT_VERSION }}
