@@ -5,7 +5,7 @@ on:
 
 jobs:
   createPullRequest:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
 
       - name: checkout testing
