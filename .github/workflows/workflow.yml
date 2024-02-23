@@ -16,12 +16,17 @@ jobs:
         run: |
           cat toggleMute/toggleMute.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '
 
-      - name: Get latest tag
-        id: get-latest-tag
-        uses: actions-ecosystem/action-get-latest-tag@v1
+      - name: GitHub Tag Name example
+        run: |
+          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
+          
+      # - name: Get latest tag
+      #   id: get-latest-tag
+      #   uses: actions-ecosystem/action-get-latest-tag@v1
 
-      - name: print 
-        run: echo ${{ steps.get-latest-tag.outputs.tag }}
+      # - name: print 
+      #   run: echo ${{ steps.get-latest-tag.outputs.tag }}
 
       # - name: Checkout homebrew-testing
       #   uses: actions/checkout@v4
