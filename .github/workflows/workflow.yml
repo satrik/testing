@@ -11,9 +11,10 @@ jobs:
       - name: Checkout testing
         uses: actions/checkout@v4
       
-      - name: Get current version
+      - name: Get version
+        id: get_version
         run: |
-          ls -la
+          cat toggleMute/toggleMute.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '
 
       # - name: Checkout homebrew-testing
       #   uses: actions/checkout@v4
