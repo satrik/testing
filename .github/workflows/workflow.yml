@@ -13,11 +13,15 @@ jobs:
       
       - name: get current version
         id: get-current-version
-        run: CURRENT_VERSION=$(cat toggleMute/toggleMute.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' ')
+        run: |
+          CURRENT_VERSION=$(cat toggleMute/toggleMute.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' ')
+          cat toggleMute/toggleMute.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '
 
       - name: get latest tag 
         id: get-latest-tag
-        run: LATEST_TAG=$(git tag --sort=committerdate | tail -1)
+        run: |
+          LATEST_TAG=$(git tag --sort=committerdate | tail -1)
+          git tag --sort=committerdate | tail -1
 
       - name: print 
         run: |
