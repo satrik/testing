@@ -39,8 +39,10 @@ jobs:
           xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty
           if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
           xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive
+          ls -la App.xcarchive/Products/Applications/
           cp ${{ github.workspace }}/toggleMuteDisableQuarantine.command App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
           chmod +x App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
+          ls -la App.xcarchive/Products/Applications/
           ln -s /Applications/ App.xcarchive/Products/Applications/Applications
           hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/" -ov -format UDZO "../toggleMute.dmg"
           echo "DMG_CHECKSUM=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
