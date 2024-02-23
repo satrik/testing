@@ -61,8 +61,8 @@ jobs:
 
       - name: bump version and update hash
         run: |
-          sed -i 's/^  version .*/  version "${{ steps.get-new-version.outputs.NEW_VERSION }}"/' ${{ github.workspace }}/Casks/testing.rb
-          sed -i 's/^  sha256 .*/  sha256 "${{ steps.build-app-archive.outputs.DMG_CHECKSUM}}"/' ${{ github.workspace }}/Casks/testing.rb
+          sed -E -i 's/^  version .*/  version "${{ steps.get-new-version.outputs.NEW_VERSION }}"/' ${{ github.workspace }}/Casks/testing.rb
+          sed -E -i 's/^  sha256 .*/  sha256 "${{ steps.build-app-archive.outputs.DMG_CHECKSUM}}"/' ${{ github.workspace }}/Casks/testing.rb
 
       - name: create pull request
         uses: peter-evans/create-pull-request@v6
