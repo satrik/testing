@@ -33,16 +33,15 @@ jobs:
           scheme: ${{ 'default' }}
         run: |
           cd toggleMute
-          #if [ $scheme = default ]; then scheme=$(cat default); fi
-          #if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
-          #file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-          #xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty
-          #if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
-          #xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive
-          #ls -la App.xcarchive/Products/Applications
-          #hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/toggleMute.app" -ov -format UDZO "../toggleMute.dmg"
-          #ls -la ..
-          echo ${RANDOM} > ../toggleMute.dmg
+          if [ $scheme = default ]; then scheme=$(cat default); fi
+          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
+          file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
+          xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty
+          if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
+          xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive
+          ls -la App.xcarchive/Products/Applications
+          hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/toggleMute.app" -ov -format UDZO "../toggleMute.dmg"
+          ls -la ..
           echo "DMG_CHECKSUM=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
 
       - name: create new release and tag
