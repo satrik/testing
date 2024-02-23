@@ -33,7 +33,7 @@ jobs:
 
       - name: print 
         run: |
-          echo "CURRENT_VERSION ${{ steps.get-current-version-x.CURRENT_VERSION }}"
+          echo "CURRENT_VERSION ${{ steps.get-current-version-x.outputs.CURRENT_VERSION }}"
           echo "LATEST_TAG ${{ steps.get-latest-tag-x.outputs.LATEST_TAG }}"
       
       - name: get current version
