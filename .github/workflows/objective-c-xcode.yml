@@ -44,14 +44,23 @@ jobs:
         run: |
           TAG="$(cat toggleMute/toggleMute.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' ')"
           echo "CURRENT_VERSION=${TAG}" >> $GITHUB_OUTPUT
-          git tag "${TAG}" 
           cat $GITHUB_OUTPUT
       - name: Create tag
         id: tag_version
-        uses: cardinalby/git-tag-action@master
         env:
           TAG: ${{ steps.get-current-version.outputs.CURRENT_VERSION }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git tag ${TAG
+          git_refs_url=$(jq .repository.git_refs_url $GITHUB_EVENT_PATH | tr -d '"' | sed 's/{\/sha}//g')
+          curl -s -X POST "$git_refs_url" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d @- << EOF
+          
+            {
+              "ref": "refs/tags/${TAG}",
+              "sha": "$GITHUB_SHA"
+            }
+            EOF
       - uses: ncipollo/release-action@v1.14.0
         with:
           artifacts: "toggleMute.dmg"
