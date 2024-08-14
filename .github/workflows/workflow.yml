@@ -78,6 +78,6 @@ jobs:
           token: ${{ secrets.CASK_REPO_TOKEN }}
           commit-message: Update version of homebrew cask
           delete-branch: true
-          title: 'Update version'
+          title: 'Update version to ${{ steps.get-new-version.outputs.NEW_VERSION }}'
           labels: update
           draft: false
