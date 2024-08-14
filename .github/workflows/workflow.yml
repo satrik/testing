@@ -19,7 +19,7 @@ jobs:
         id: get-new-version
         run: echo "NEW_VERSION=$(cat toggleMute/toggleMute.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' ')" >> $GITHUB_OUTPUT
     
-      - name: Get release notes from changelog
+      - name: get release notes from changelog
         uses: yashanand1910/standard-release-notes@v1.5.0
         id: get-release-notes
         with:
