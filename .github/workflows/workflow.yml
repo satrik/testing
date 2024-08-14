@@ -57,7 +57,7 @@ jobs:
         uses: ncipollo/release-action@v1.14.0
         with:
           artifacts: "toggleMute.dmg"
-          body: "${{ steps.get-release-notes.outputs.release_notes }} \n\nSHA256sum: ${{ steps.build-app-archive.outputs.DMG_CHECKSUM}} "
+          body: "${{ steps.get-release-notes.outputs.release_notes }} <br/><br/><br/>SHA256sum: ${{ steps.build-app-archive.outputs.DMG_CHECKSUM}} "
           name: ${{ steps.get-new-version.outputs.NEW_VERSION }}
           tag: ${{ steps.get-new-version.outputs.NEW_VERSION }}
 
