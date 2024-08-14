@@ -365,6 +365,3 @@ docusaurus/build/
 .cache-loader
 
 /external-sources/.cache
-
-toggleMute/toggleMute.xcodeproj/project.xcworkspace/xcuserdata/*
-toggleMute/toggleMute.xcodeproj/xcuserdata/*
