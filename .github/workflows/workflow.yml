@@ -1,4 +1,4 @@
-name: build new app and release
+name: build new app
 
 on:
   workflow_dispatch:
