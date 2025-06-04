@@ -1,9 +1,9 @@
 #!/bin/bash
 #title          : toggleMuteDisableQuarantine.command
 #description    : This script will remove the quarantine from toggleMute.app
-#author         : dev@petrik.de
+#author         : sascha.petrik@cgm.com
 #date           : 20240219
-#version        : 1.0
+#version        : 1.1
 #usage          : double click to execute or via a terminal
 #============================================================================
 APPNAME="toggleMute"

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		42DC250427BD487100639D5F /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 42DC250327BD487100639D5F /* KeyboardShortcuts */; };
 		447B1DF9236795F100587E3A /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447B1DF8236795F100587E3A /* MainController.swift */; };
 		449F396A2317247B008A0DBD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449F39692317247B008A0DBD /* AppDelegate.swift */; };
 		449F396C2317247C008A0DBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 449F396B2317247C008A0DBD /* Assets.xcassets */; };
@@ -18,6 +17,7 @@
 		44EB8BD923AC2ABD005A4A0B /* TouchBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EB8BD723AC2ABD005A4A0B /* TouchBarController.swift */; };
 		44EB8BDD23AC350D005A4A0B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44EB8BDB23AC350D005A4A0B /* SettingsViewController.swift */; };
 		BD391AE9263C3F5600848049 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = BD391AE8263C3F5600848049 /* LaunchAtLogin */; };
+		C3C528C02DF0162800BBC393 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = C3C528BF2DF0162800BBC393 /* KeyboardShortcuts */; };
 		C3DA000A2B88C00900B6BCCA /* EventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DA00092B88C00900B6BCCA /* EventMonitor.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,7 +59,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD391AE9263C3F5600848049 /* LaunchAtLogin in Frameworks */,
-				42DC250427BD487100639D5F /* KeyboardShortcuts in Frameworks */,
+				C3C528C02DF0162800BBC393 /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				449F39682317247B008A0DBD /* toggleMute */,
+				C3C528BE2DF0162800BBC393 /* Frameworks */,
 				449F39672317247B008A0DBD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -152,6 +153,13 @@
 			path = Storyboard;
 			sourceTree = "<group>";
 		};
+		C3C528BE2DF0162800BBC393 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -172,7 +180,7 @@
 			name = toggleMute;
 			packageProductDependencies = (
 				BD391AE8263C3F5600848049 /* LaunchAtLogin */,
-				42DC250327BD487100639D5F /* KeyboardShortcuts */,
+				C3C528BF2DF0162800BBC393 /* KeyboardShortcuts */,
 			);
 			productName = NootNootBar;
 			productReference = 449F39662317247B008A0DBD /* toggleMute.app */;
@@ -184,8 +192,9 @@
 		449F395E2317247B008A0DBD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1630;
 				ORGANIZATIONNAME = "Arnaud Le Bourblanc";
 				TargetAttributes = {
 					449F39652317247B008A0DBD = {
@@ -233,6 +242,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		BD391AEA263C3FB400848049 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -306,7 +316,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = MFTS39V3F9;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -369,7 +381,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = MFTS39V3F9;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -395,12 +409,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = toggleMute/Resources/SettingsController.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = NO;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -419,6 +434,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggleMute;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "toggleMute/Support/SettingsController-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -431,12 +447,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = toggleMute/Resources/SettingsController.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = NO;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -455,6 +472,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.toggleMute;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "toggleMute/Support/SettingsController-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
@@ -489,7 +507,7 @@
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
 			requirement = {
 				kind = exactVersion;
-				version = 1.17.0;
+				version = 2.3.0;
 			};
 		};
 		BD391AE7263C3F5600848049 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
@@ -497,21 +515,21 @@
 			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
 			requirement = {
 				kind = exactVersion;
-				version = 5.0.0;
+				version = 5.0.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		42DC250327BD487100639D5F /* KeyboardShortcuts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 42DC250227BD487100639D5F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
-			productName = KeyboardShortcuts;
-		};
 		BD391AE8263C3F5600848049 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BD391AE7263C3F5600848049 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
+		};
+		C3C528BF2DF0162800BBC393 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 42DC250227BD487100639D5F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -130,7 +130,6 @@ class MainController: NSViewController, UNUserNotificationCenterDelegate {
         popoverSettingsView.contentViewController = settingsController
         popoverSettingsView.behavior = .transient
         popoverSettingsView.show(relativeTo: settingsButton.bounds, of: settingsButton, preferredEdge: .maxY)
-
         delegateController.eventMonitor2?.start()
     }
     

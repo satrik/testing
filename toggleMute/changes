@@ -1,6 +1,0 @@
-- added brew as install method
-- added check to get install method
-- added macos notification if an update is available
-- added EventMonitor class to monitor clicks outside of the popover
-- added github icon
-- resized menubar icon

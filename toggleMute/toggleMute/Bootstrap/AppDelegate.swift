@@ -19,7 +19,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     var eventMonitor2: EventMonitor?
     var refreshTimer: Timer?
     let defaults = UserDefaults.standard
-
     let imageUnmute = NSImage(named: NSImage.touchBarAudioInputTemplateName)
     let imageMute = NSImage(named: NSImage.touchBarAudioInputMuteTemplateName)
 
@@ -86,7 +85,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             
         })
         
-        
         if let button = self.statusItem.button {
             
             button.image = touchBarController.imageUnmute?.tint(color: .selectedMenuItemTextColor)
@@ -94,11 +92,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             button.target = self
             button.action = #selector(statusBarButtonClicked)
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
-            
+
         }
         
         popoverView.contentViewController = MainController.createController()
-        
+        popoverView.setValue(true, forKeyPath: "shouldHideAnchor")
+        popoverView.behavior = .transient
+
         eventMonitor = EventMonitor(mask: [.leftMouseDown, .rightMouseDown]) { [weak self] event in
           
             if let strongSelf = self, (strongSelf.popoverView.isShown) {
@@ -239,9 +239,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             
         } else {
             
-            popoverView.behavior = .transient
-            popoverView.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+            popoverView.show(relativeTo: button.bounds.offsetBy(dx: 0, dy: -6), of: button, preferredEdge: NSRectEdge.minY)
             popoverView.contentViewController?.view.window?.becomeKey()
+            
             eventMonitor?.start()
             NSApp.activate(ignoringOtherApps: true)
 
