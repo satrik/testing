@@ -5,7 +5,7 @@ on:
 
 jobs:
   buildNewApp:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
 
       - uses: maxim-lobanov/setup-xcode@v1.6.0
@@ -74,3 +74,10 @@ jobs:
           title: 'Update version to ${{ steps.get-new-version.outputs.NEW_VERSION }}'
           labels: update
           draft: false
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.CASK_REPO_TOKEN }}
+          number: 1
+          method: squash
+          repo: satrik/omebrew-testing
