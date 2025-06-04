@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  buildNewAppRelease:
+  buildNewApp:
     runs-on: macos-14
     steps:
 
@@ -26,30 +26,23 @@ jobs:
           changelog_path: ./CHANGELOG.md
           version: ${{ steps.get-new-version.outputs.NEW_VERSION }}
 
-      - name: set default scheme
-        run: |
-          cd toggleMute
-          scheme_list=$(xcodebuild -list -json | tr -d "\n")
-          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
-          echo $default | cat >default
-          echo Using default scheme: $default
-
       - name: build app archive
         id: build-app-archive
         env:
           scheme: ${{ 'default' }}
         run: |
           cd toggleMute
-          if [ $scheme = default ]; then scheme=$(cat default); fi
-          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
+          scheme_list=$(xcodebuild -list -json | tr -d "\n")
+          scheme=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
+          file_to_build=`ls -A | grep -i \\.xcodeproj\$`
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-          xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty
+          xcodebuild clean build analyze -scheme "$scheme" -project "$file_to_build" 
           if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
           xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive
           cp ${{ github.workspace }}/toggleMuteDisableQuarantine.command App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
           cp ${{ github.workspace }}/README.md App.xcarchive/Products/Applications/README.md
           chmod +x App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
-           ln -s /Applications/ App.xcarchive/Products/Applications/Applications
+          ln -s /Applications/ App.xcarchive/Products/Applications/Applications
           hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/" -ov -format UDZO "../toggleMute.dmg"
           echo "DMG_CHECKSUM=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
 
