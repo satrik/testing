@@ -38,7 +38,7 @@ jobs:
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
           xcodebuild clean build analyze -scheme "$scheme" -project "$file_to_build" 
           if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
-          xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive
+          xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive CODE_SIGNING_ALLOWED=NO
           cp ${{ github.workspace }}/toggleMuteDisableQuarantine.command App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
           cp ${{ github.workspace }}/README.md App.xcarchive/Products/Applications/README.md
           chmod +x App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
