@@ -26,25 +26,32 @@ jobs:
           changelog_path: ./CHANGELOG.md
           version: ${{ steps.get-new-version.outputs.NEW_VERSION }}
 
-      - name: build app archive
-        id: build-app-archive
-        env:
-          scheme: ${{ 'default' }}
-        run: |
-          cd toggleMute
-          scheme_list=$(xcodebuild -list -json | tr -d "\n")
-          scheme=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
-          file_to_build=`ls -A | grep -i \\.xcodeproj\$`
-          file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-          xcodebuild clean build analyze -scheme "$scheme" -project "$file_to_build" CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" PROVISIONING_PROFILE_SPECIFIER=""
-          if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
-          xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" PROVISIONING_PROFILE_SPECIFIER=""
-          cp ${{ github.workspace }}/toggleMuteDisableQuarantine.command App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
-          cp ${{ github.workspace }}/README.md App.xcarchive/Products/Applications/README.md
-          chmod +x App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
-          ln -s /Applications/ App.xcarchive/Products/Applications/Applications
-          hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/" -ov -format UDZO "../toggleMute.dmg"
-          echo "DMG_CHECKSUM=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
+      - name: build app
+        uses: sersoft-gmbh/xcodebuild-action@v3
+        with:
+          project: toggleMute/toggleMute.xcodeproj
+          scheme: toggleMute
+          destination: platform=macOS
+          archive-path: App.xcarchive
+          action: archive
+
+      # - name: build app archive
+      #   id: build-app-archive
+      #   run: |
+      #     cd toggleMute
+      #     scheme_list=$(xcodebuild -list -json | tr -d "\n")
+      #     scheme=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
+      #     file_to_build=`ls -A | grep -i \\.xcodeproj\$`
+      #     file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
+      #     xcodebuild clean build analyze -scheme "$scheme" -project "$file_to_build" CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" PROVISIONING_PROFILE_SPECIFIER=""
+      #     if [ "${PIPESTATUS[0]}" -ne 0 ] ; then exit ${PIPESTATUS[0]} ; fi
+      #     xcodebuild archive -scheme "$scheme" -archivePath App.xcarchive CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" PROVISIONING_PROFILE_SPECIFIER=""
+      #     cp ${{ github.workspace }}/toggleMuteDisableQuarantine.command App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
+      #     cp ${{ github.workspace }}/README.md App.xcarchive/Products/Applications/README.md
+      #     chmod +x App.xcarchive/Products/Applications/toggleMuteDisableQuarantine.command
+      #     ln -s /Applications/ App.xcarchive/Products/Applications/Applications
+      #     hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/" -ov -format UDZO "../toggleMute.dmg"
+      #     echo "DMG_CHECKSUM=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
 
       - name: create new release and tag
         uses: ncipollo/release-action@v1.14.0
