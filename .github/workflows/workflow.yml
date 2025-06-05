@@ -53,38 +53,38 @@ jobs:
       #     hdiutil create -volname "toggleMute" -srcfolder "App.xcarchive/Products/Applications/" -ov -format UDZO "../toggleMute.dmg"
       #     echo "DMG_CHECKSUM=$(shasum -a 256 -b "../toggleMute.dmg" | awk '{print $1 }')" >> $GITHUB_OUTPUT
 
-      - name: create new release and tag
-        uses: ncipollo/release-action@v1.14.0
-        with:
-          artifacts: "toggleMute.dmg"
-          body: "${{ steps.get-release-notes.outputs.release_notes }} <br/><br/><br/>SHA256sum: ${{ steps.build-app-archive.outputs.DMG_CHECKSUM}} "
-          name: ${{ steps.get-new-version.outputs.NEW_VERSION }}
-          tag: ${{ steps.get-new-version.outputs.NEW_VERSION }}
+      # - name: create new release and tag
+      #   uses: ncipollo/release-action@v1.14.0
+      #   with:
+      #     artifacts: "toggleMute.dmg"
+      #     body: "${{ steps.get-release-notes.outputs.release_notes }} <br/><br/><br/>SHA256sum: ${{ steps.build-app-archive.outputs.DMG_CHECKSUM}} "
+      #     name: ${{ steps.get-new-version.outputs.NEW_VERSION }}
+      #     tag: ${{ steps.get-new-version.outputs.NEW_VERSION }}
 
-      - name: checkout homebrew-testing
-        uses: actions/checkout@v4
-        with:
-          repository: 'satrik/homebrew-testing'
-          token: ${{ secrets.CASK_REPO_TOKEN }}
+      # - name: checkout homebrew-testing
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: 'satrik/homebrew-testing'
+      #     token: ${{ secrets.CASK_REPO_TOKEN }}
 
-      - name: bump version and update hash
-        run: |
-          sed -i '' 's/^  version .*/  version "${{ steps.get-new-version.outputs.NEW_VERSION }}"/' ${{ github.workspace }}/Casks/testing.rb
-          sed -i '' 's/^  sha256 .*/  sha256 "${{ steps.build-app-archive.outputs.DMG_CHECKSUM}}"/' ${{ github.workspace }}/Casks/testing.rb
+      # - name: bump version and update hash
+      #   run: |
+      #     sed -i '' 's/^  version .*/  version "${{ steps.get-new-version.outputs.NEW_VERSION }}"/' ${{ github.workspace }}/Casks/testing.rb
+      #     sed -i '' 's/^  sha256 .*/  sha256 "${{ steps.build-app-archive.outputs.DMG_CHECKSUM}}"/' ${{ github.workspace }}/Casks/testing.rb
 
-      - name: create pull request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.CASK_REPO_TOKEN }}
-          commit-message: Update version of homebrew cask
-          delete-branch: true
-          title: 'Update version to ${{ steps.get-new-version.outputs.NEW_VERSION }}'
-          labels: update
-          draft: false
-      - name: Merge Pull Request
-        uses: juliangruber/merge-pull-request-action@v1
-        with:
-          github-token: ${{ secrets.CASK_REPO_TOKEN }}
-          number: 1
-          method: squash
-          repo: satrik/omebrew-testing
+      # - name: create pull request
+      #   uses: peter-evans/create-pull-request@v6
+      #   with:
+      #     token: ${{ secrets.CASK_REPO_TOKEN }}
+      #     commit-message: Update version of homebrew cask
+      #     delete-branch: true
+      #     title: 'Update version to ${{ steps.get-new-version.outputs.NEW_VERSION }}'
+      #     labels: update
+      #     draft: false
+      # - name: Merge Pull Request
+      #   uses: juliangruber/merge-pull-request-action@v1
+      #   with:
+      #     github-token: ${{ secrets.CASK_REPO_TOKEN }}
+      #     number: 1
+      #     method: squash
+      #     repo: satrik/omebrew-testing
